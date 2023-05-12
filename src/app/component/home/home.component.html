@@ -1,0 +1,61 @@
+<header class="py-4">
+  <div class="col-md-10 mx-auto" *ngIf="notes.length">
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>search</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+  </div>
+      
+    <div class="hstack justify-content-end">
+        <button mat-raised-button color="primary"  (click)="openDialog()">Add Note</button>
+
+    </div>
+</header>
+<section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let note of notes|filter:value; index as index">
+        <div class="card h-100 shadow">
+           <div class="card-body center">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="position-absolute end-0">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item data-bs-toggle="modal"  data-bs-target="#deleteNote">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+            
+               
+                <button (click)="setData(note)" mat-menu-item  data-bs-toggle="modal" data-bs-target="#editNote">
+                  <mat-icon>edit</mat-icon>
+                  <span>Update</span>
+                </button>
+              </mat-menu>
+              <!-- ==================================Delete====================================== -->
+<div class="modal fade" id="deleteNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title text-danger  fs-5" id="exampleModalLabel">Delete Note</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <p class="text-center text-primary">Are you sure?</p>
+      <div class="modal-footer">
+        <button (click)="deleteItem(note._id,index)" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+        <button type="button" class="btn btn-primary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+            <h3 class="h5">{{note.title}}</h3>
+            <p class="small text-muted">{{note.desc}}</p>
+           </div>
+        </div>
+    </div>
+    
+
+</section>
